@@ -127,11 +127,14 @@
       save() {
         if (this.editedIndex > -1) {
           axios.put(`${apiUrl}/player/${this.editedPlayer.id}`, {
-            api_token: apiUrl,
+            api_token: apiToken,
             first_name: this.editedPlayer.first_name,
             last_name: this.editedPlayer.last_name,
           }).then(player => {
+            console.log(this.editedIndex)
+            console.log(this.team.players)
             Object.assign(this.team.players[this.editedIndex], player.data)
+            this.close()
           })
         } else {
           axios.post(`${apiUrl}/player`, {
@@ -141,9 +144,9 @@
             team_id: this.$route.params.id
           }).then(player => {
             this.team.players.push(player.data)
+            this.close()
           })
         }
-        this.close()
       }
     }
   }
